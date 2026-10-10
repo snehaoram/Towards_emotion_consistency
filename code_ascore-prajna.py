@@ -19,11 +19,11 @@ torch.backends.cudnn.benchmark = False
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
-# login(token="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")
+# login(token="YOUR_HF_API") 
 
 # 1. Load Model and Tokenizer
 # We use load_in_4bit=True to make it runnable on consumer GPUs.
-model_name = "/home/cfiltlab/23m2159/mistral" #mistralai/Mistral-7B-Instruct-v0.3
+model_name = "\path_to_your_model" #mistralai/Mistral-7B-Instruct-v0.3
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
@@ -33,7 +33,7 @@ model = AutoModelForCausalLM.from_pretrained(model_name, output_attentions=True)
 
 
 df = pd.read_csv('ExEmo_Mistral.csv') #MoEmo_Mistral.csv
-outdir = "/home/cfiltlab/23m2159/Ascore_Mo/results/"
+outdir = "YOUR_OUTPUT_DIR"
 os.makedirs(outdir, exist_ok=True)
 # df = df[:5]
 
@@ -43,10 +43,6 @@ os.makedirs(outdir, exist_ok=True)
 
 # def generate_prompt_l2(converse, mo_emo):
 #     return f"""You are an helpful assistant. Consider the following conversation between a help-seeker and a supporter. {converse}\nLooks like the seeker feeling {mo_emo}? Do you agree? Give a very short response."""
-
-
-# def generate_prompt_l3(converse, emo, mo_emo):
-#     return f"""You are an helpful assistant. Consider the following conversation between a help-seeker and a supporter. {converse}\nWhile the person is {emo}, their words suggest they might be feeling {mo_emo} Do you agree? Give a very short response."""  # speaks about
 
 
 # def generate_prompt_l4(converse, mo_emo):
@@ -90,13 +86,11 @@ for i, row in df.iterrows():
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
     query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?" 
-    # query3 = "While the person is " + emo + ", their words suggest they might be feeling " + ex_emotion + "? Do you agree?" 
     query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    # prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
     prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -123,7 +117,7 @@ for i, row in df.iterrows():
 
 
     # --- Parameters for Visualization ---
-    layer_to_visualize = 16  # Mistral-7B has 32 layers (0-31)
+    layer_to_visualize = 29  # Mistral-7B has 32 layers (0-31), 29,30,31
     head_to_visualize = 31   # Mistral-7B has 32 heads (0-31)
 
 
@@ -165,7 +159,7 @@ for i, row in df.iterrows():
 
 
 # print('finale[:5]: ', finale[:5])
-# filename = 'finale1_1631.pkl'
+# filename = 'finale1_3131.pkl'
 filename = os.path.join(outdir, "finale_1631.pkl")
 
 # Open the file in write-binary mode
@@ -184,14 +178,12 @@ for i, row in df.iterrows():
     ex_emotion = row['extreme'] #moderate
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
-    query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?" 
-    # query3 = "While the person is " + emo + ", their words suggest they might be feeling " + ex_emotion + "? Do you agree?" 
+    query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?"  
     query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    # prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
     prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -218,7 +210,7 @@ for i, row in df.iterrows():
 
 
     # --- Parameters for Visualization ---
-    layer_to_visualize = 16  # Mistral-7B has 32 layers (0-31)
+    layer_to_visualize = 31  # Mistral-7B has 32 layers (0-31), 29,30,31
     head_to_visualize = 31   # Mistral-7B has 32 heads (0-31)
 
 
@@ -260,7 +252,7 @@ for i, row in df.iterrows():
 
 
 # print('finale[:5]: ', finale[:5])
-# filename = 'finale2_1631.pkl'
+# filename = 'finale2_3131.pkl'
 filename = os.path.join(outdir, "finale2_1631.pkl")
 # Open the file in write-binary mode
 with open(filename, 'wb') as file:
@@ -276,14 +268,12 @@ for i, row in df.iterrows():
     ex_emotion = row['extreme'] #moderate
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
-    query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?" 
-    # query3 = "While the person is " + emo + ", their words suggest they might be feeling " + ex_emotion + "? Do you agree?" 
+    query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?"  
     query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    # prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
     prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -310,7 +300,7 @@ for i, row in df.iterrows():
 
 
     # --- Parameters for Visualization ---
-    layer_to_visualize = 16  # Mistral-7B has 32 layers (0-31)
+    layer_to_visualize = 31  # Mistral-7B has 32 layers (0-31), 31,30,29
     head_to_visualize = 31   # Mistral-7B has 32 heads (0-31)
 
 
@@ -352,7 +342,7 @@ for i, row in df.iterrows():
 
 
 # print('finale[:5]: ', finale[:5])
-# filename = 'finale4_1631.pkl'
+# filename = 'finale4_3131.pkl'
 filename = os.path.join(outdir, "finale4_1631.pkl")
 # Open the file in write-binary mode
 with open(filename, 'wb') as file:
