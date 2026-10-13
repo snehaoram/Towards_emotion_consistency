@@ -45,7 +45,7 @@ os.makedirs(outdir, exist_ok=True)
 #     return f"""You are an helpful assistant. Consider the following conversation between a help-seeker and a supporter. {converse}\nLooks like the seeker feeling {mo_emo}? Do you agree? Give a very short response."""
 
 
-# def generate_prompt_l4(converse, mo_emo):
+# def generate_prompt_l3(converse, mo_emo):
 #     return f"""You are an helpful assistant. Consider the following conversation between a help-seeker and a supporter. {converse}\nClearly the person is feeling {mo_emo}. Do you agree? Give a very short response."""
 
 finale = []
@@ -86,17 +86,17 @@ for i, row in df.iterrows():
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
     query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?" 
-    query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
+    query3 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
+    prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
     # 3. Tokenize the Input
-    inputs1 = tokenizer(prompt1, return_tensors="pt").to(device)  ###########Change these to 2,3,4 for other query levels
-    token_strings1 = tokenizer.convert_ids_to_tokens(inputs1["input_ids"][0])    ###########Change these to 2,3,4 for other query levels
+    inputs1 = tokenizer(prompt1, return_tensors="pt").to(device)  ###########Change these to 2,3 for other query levels
+    token_strings1 = tokenizer.convert_ids_to_tokens(inputs1["input_ids"][0])    ###########Change these to 2,3 for other query levels
 
 
     model.to(device)
@@ -134,13 +134,13 @@ for i, row in df.iterrows():
     attention_from_query_token = attention_for_head[query_token_index]
 
     # Get the top K tokens
-    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings1, k=top_k)  ############Change it to 2,3,4
+    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings1, k=top_k)  ############Change it to 2,3
 
-    query_token_string = token_strings1[query_token_index]  ############Change it to 2,3,4
+    query_token_string = token_strings1[query_token_index]  ############Change it to 2,3
 
 
     #Additional evaluation
-    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3,4
+    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3
     token_strings_q = tokenizer.convert_ids_to_tokens(inputs_q["input_ids"][0])
 
     toks = [item[0] for item in top_attended_tokens]
@@ -160,7 +160,7 @@ for i, row in df.iterrows():
 
 # print('finale[:5]: ', finale[:5])
 # filename = 'finale1_3131.pkl'
-filename = os.path.join(outdir, "finale_1631.pkl")
+filename = os.path.join(outdir, "finale_2931.pkl")
 
 # Open the file in write-binary mode
 with open(filename, 'wb') as file:
@@ -179,17 +179,17 @@ for i, row in df.iterrows():
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
     query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?"  
-    query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
+    query3 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
+    prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
     # 3. Tokenize the Input
-    inputs2 = tokenizer(prompt2, return_tensors="pt").to(device)  ###########Change these to 2,3,4 for other query levels
-    token_strings2 = tokenizer.convert_ids_to_tokens(inputs2["input_ids"][0])    ###########Change these to 2,3,4 for other query levels
+    inputs2 = tokenizer(prompt2, return_tensors="pt").to(device)  ###########Change these to 2,3 for other query levels
+    token_strings2 = tokenizer.convert_ids_to_tokens(inputs2["input_ids"][0])    ###########Change these to 2,3 for other query levels
 
 
     model.to(device)
@@ -227,13 +227,13 @@ for i, row in df.iterrows():
     attention_from_query_token = attention_for_head[query_token_index]
 
     # Get the top K tokens
-    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings2, k=top_k)  ############Change it to 2,3,4
+    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings2, k=top_k)  ############Change it to 2,3
 
-    query_token_string = token_strings2[query_token_index]  ############Change it to 2,3,4
+    query_token_string = token_strings2[query_token_index]  ############Change it to 2,3
 
 
     #Additional evaluation
-    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3,4
+    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3
     token_strings_q = tokenizer.convert_ids_to_tokens(inputs_q["input_ids"][0])
 
     toks = [item[0] for item in top_attended_tokens]
@@ -253,7 +253,7 @@ for i, row in df.iterrows():
 
 # print('finale[:5]: ', finale[:5])
 # filename = 'finale2_3131.pkl'
-filename = os.path.join(outdir, "finale2_1631.pkl")
+filename = os.path.join(outdir, "finale2_3131.pkl")
 # Open the file in write-binary mode
 with open(filename, 'wb') as file:
     # Use pickle.dump() to write the list to the file
@@ -261,7 +261,7 @@ with open(filename, 'wb') as file:
 
 
 #######################################################################
-finale4 = []
+finale3 = []
 
 for i, row in df.iterrows():
     converse = row['conversation']
@@ -269,23 +269,23 @@ for i, row in df.iterrows():
     emo = row['Emotion']
     query1 = "Is the seeker feeling " + ex_emotion + "?" #"Is the speaker feeling existentially adrift, profoundly unfulfilled, and suffocated by relentless void?"
     query2 = "Looks like the seeker feeling " + ex_emotion + "? Do you agree?"  
-    query4 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
+    query3 = "Clearly the person is feeling " + ex_emotion + ". Do you agree?" 
 
     # Format the prompt using the official Mistral instruction template
     prompt1 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query1}"
     prompt2 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query2}"
-    prompt4 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query4}"
+    prompt3 = f"Consider a conversation between a help-seeker and a supporter: Conversation: {converse} \n\n Query: {query3}"
 
     tokenizer.pad_token_id = tokenizer.eos_token_id
     # 3. Tokenize the Input
-    inputs4 = tokenizer(prompt4, return_tensors="pt").to(device)  ###########Change these to 2,3,4 for other query levels
-    token_strings4 = tokenizer.convert_ids_to_tokens(inputs4["input_ids"][0])    ###########Change these to 2,3,4 for other query levels
+    inputs3 = tokenizer(prompt3, return_tensors="pt").to(device)  ###########Change these to 2,3 for other query levels
+    token_strings3 = tokenizer.convert_ids_to_tokens(inputs3["input_ids"][0])    ###########Change these to 2,3 for other query levels
 
 
     model.to(device)
     with torch.no_grad():
         outputs = model.generate(
-            **inputs4,
+            **inputs3,
             max_new_tokens=1, # We only care about the attention on the prompt
             output_attentions=True,
             return_dict_in_generate=True
@@ -317,13 +317,13 @@ for i, row in df.iterrows():
     attention_from_query_token = attention_for_head[query_token_index]
 
     # Get the top K tokens
-    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings4, k=top_k)  ############Change it to 2,3,4
+    top_attended_tokens = get_top_k_attention(attention_from_query_token, token_strings3, k=top_k)  ############Change it to 2,3
 
-    query_token_string = token_strings4[query_token_index]  ############Change it to 2,3,4
+    query_token_string = token_strings3[query_token_index]  ############Change it to 2,3
 
 
     #Additional evaluation
-    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3,4
+    inputs_q = tokenizer(ex_emotion, return_tensors="pt").to(device)   ############Change it to 2,3
     token_strings_q = tokenizer.convert_ids_to_tokens(inputs_q["input_ids"][0])
 
     toks = [item[0] for item in top_attended_tokens]
@@ -334,7 +334,7 @@ for i, row in df.iterrows():
             # print(tok)
             finals.append(tok)
     
-    finale4.append(finals)
+    finale3.append(finals)
     # if k%100 == 0:
     #     print('running: ', k)
     # k += 1
@@ -343,8 +343,8 @@ for i, row in df.iterrows():
 
 # print('finale[:5]: ', finale[:5])
 # filename = 'finale4_3131.pkl'
-filename = os.path.join(outdir, "finale4_1631.pkl")
+filename = os.path.join(outdir, "finale3_3131.pkl")
 # Open the file in write-binary mode
 with open(filename, 'wb') as file:
     # Use pickle.dump() to write the list to the file
-    pickle.dump(finale4, file)
+    pickle.dump(finale3, file)
