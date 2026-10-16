@@ -27,7 +27,7 @@ Clone the repository and install standard requirements, ensuring your `OPENAI_AP
 ```bibtex
 @article{oram2026towards,
   title={Towards Emotion Consistency Analysis of Large Language Models in Emotional Conversational Contexts},
-  author={Oram, Sneha and Bhushan, Ojaswita and Bhattacharyya, Pushpak},
+  author={Oram, Sneha and Bhushan, Ojaswita and Padole, Tejomay and Awate, Suyash and Bhattacharyya, Pushpak},
   journal={arXiv preprint arXiv:2605.06476},
   year={2026}
 }
