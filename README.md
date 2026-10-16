@@ -27,8 +27,8 @@ Clone the repository and install standard requirements, ensuring your `OPENAI_AP
 ```bibtex
 @inproceedings{oram2026towards,
   title={Towards Emotion Consistency Analysis of Large Language Models in Emotional Conversational Contexts},
-  author={Oram, Sneha and Bhushan, Ojaswita and Bhattacharyya, Pushpak},
-  booktitle={Proceedings of the Workshop on Multimodal Emotion and Psycholinguistic Analysis (MultiPsyche) in Conjunction with AACL-IJCNLP 2026},
+  author={Oram, Sneha and Bhushan, Ojaswita and Padole, Tejomay and Awate, Suyash and Bhattacharyya, Pushpak},
+  booktitle={Proceedings of the First Workshop on Multimodal, Multilingual, and Multicultural Mental Health and Psychotherapy (MultiPsyche) in Conjunction with AACL-IJCNLP 2026},
   year={2026}
 }
 ```
