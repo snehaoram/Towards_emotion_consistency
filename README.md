@@ -1,5 +1,3 @@
-# Towards_emotion_consistency
-
 # Towards Emotion Consistency Analysis of Large Language Models in Emotional Conversational Contexts
 
 Official repository for the paper: **"Towards Emotion Consistency Analysis of Large Language Models in Emotional Conversational Contexts"** ([arXiv:2605.06476](https://arxiv.org/abs/2605.06476)).
